@@ -1,0 +1,35 @@
+{
+  "pluginAlias": "BLEAdvHomebridgePlugin",
+  "pluginType": "platform",
+  "singular": true,
+  "strictValidation": false,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "buttons": {
+        "title": "BLE devices as button",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Button name",
+              "type": "string",
+              "required": true
+            },
+            "deviceName": {
+              "title": "Bluetooth device name",
+              "type": "string",
+              "required": true
+            },
+            "buttonPressAdvPattern": {
+              "title": "Advertisement pattern for button press",
+              "type": "string",
+              "required": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
