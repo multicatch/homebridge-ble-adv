@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "BLEAdvHomebridgePlugin",
+  "pluginAlias": "BLEAdvHomebridgePlatform",
   "pluginType": "platform",
   "singular": true,
   "strictValidation": false,

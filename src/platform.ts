@@ -118,6 +118,8 @@ export class BLEAdvHomebridgePlatform implements DynamicPlatformPlugin {
   discoverDevices(): BLEAdvButtonAccessory[] {
     const buttons = this.config.buttons;
 
+    this.log.info('Config: %s', this.config.buttons);
+
     const devices = [];
     const configuredButtons: BLEAdvButtonAccessory[] = [];
 
