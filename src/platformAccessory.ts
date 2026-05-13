@@ -20,7 +20,10 @@ export class BLEAdvButtonAccessory {
     this.service.setCharacteristic(characteristic.Name, config.name);
     this.service.setCharacteristic(characteristic.ConfiguredName, config.name);
 
-    this.service.addCharacteristic(characteristic.ProgrammableSwitchEvent);
+    this.service.getCharacteristic(characteristic.ProgrammableSwitchEvent)
+      .setProps({
+        validValues: [characteristic.ProgrammableSwitchEvent.SINGLE_PRESS],
+      });
 
     this.accessory.getService(serviceType.AccessoryInformation)!
       .setCharacteristic(characteristic.Manufacturer, 'multicatch')
@@ -28,8 +31,12 @@ export class BLEAdvButtonAccessory {
       .setCharacteristic(characteristic.FirmwareRevision, '1.0.0');
   }
 
-  triggerEvent(event: number) {
-    this.service.updateCharacteristic(this.characteristic.ProgrammableSwitchEvent, event);
+  triggerSinglePress() {
+    this.service
+      .getCharacteristic(this.characteristic.ProgrammableSwitchEvent)
+      .updateValue(
+        this.characteristic.ProgrammableSwitchEvent.SINGLE_PRESS
+      );
   }
 
   getBLEDevName(): string {

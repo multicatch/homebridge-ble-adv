@@ -24,9 +24,10 @@ function scanAndNotify(log: Logging, buttons: BLEAdvButtonAccessory[]) {
     }
 
     const { localName, manufacturerData } = advertisement;
+    const localNameNormalized = localName.replaceAll(/[^A-Za-z0-9 ]/g, '');
 
     for (const button of buttons) {
-      if (button.getBLEDevName() !== localName) {
+      if (localNameNormalized !== button.getBLEDevName()) {
         continue;
       }
 
@@ -37,7 +38,7 @@ function scanAndNotify(log: Logging, buttons: BLEAdvButtonAccessory[]) {
         const repeat = lastAdvertisements.indexOf(advData) >= 0;
         log.debug('Advertisement matched: %s (by %s). Is repeated? %s', advData, localName, repeat);
         if (!repeat) {
-          button.triggerEvent(0);
+          button.triggerSinglePress();
           lastAdvertisements.push(advData);
         }
       } else {
