@@ -1,13 +1,71 @@
 import type { API, Characteristic, DynamicPlatformPlugin, Logging, PlatformAccessory, PlatformConfig, Service } from 'homebridge';
 
 import { BLEAdvButtonAccessory } from './platformAccessory.js';
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js'
+import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
 import noble, { Peripheral } from '@abandonware/noble';
 
+const maxLastAdvertisements = 20;
+const lastAdvertisements: string[] = [];
 
-function scanAndNotify(log: Logger, buttons: BLEAdvButtonAccessory[]) {
+function advertisementCleanup() {
+  if (lastAdvertisements.length > maxLastAdvertisements) {
+    lastAdvertisements.shift();
+  }
+}
 
+function scanAndNotify(log: Logging, buttons: BLEAdvButtonAccessory[]) {
+  // Callback for discovered BLE devices
+  const onDiscover = (peripheral: Peripheral) => {
+    const { advertisement } = peripheral;
+
+    if (!advertisement) {
+      return;
+    }
+
+    const { localName, manufacturerData } = advertisement;
+
+    for (const button of buttons) {
+      if (button.getBLEDevName() !== localName) {
+        continue;
+      }
+
+      log.debug('Disovered advertisement by %s', localName);
+
+      const advData = manufacturerData?.toString() || '';
+      if (button.getAdvPattern().test(advData)) {
+        const repeat = lastAdvertisements.indexOf(advData) >= 0;
+        log.debug('Advertisement matched: %s (by %s). Is repeated? %s', advData, localName, repeat);
+        if (!repeat) {
+          button.triggerEvent(0);
+          lastAdvertisements.push(advData);
+        }
+      } else {
+        log.debug('Advertisement NOT matched: %s (by %s)', advData, localName);
+      }
+    }
+
+    advertisementCleanup();
+  };
+
+  noble.on('stateChange', (state: string) => {
+    if (state === 'poweredOn') {
+      log.info('Bluetooth adapter powered on. Starting scanning...');
+      noble.startScanning([], true);
+    } else {
+      log.warn('Bluetooth adapter state changed to %s. Stopping scanning.', state);
+      noble.stopScanning();
+    }
+  });
+
+  noble.on('discover', onDiscover);
+
+  process.on('SIGINT', () => {
+    log.info('Stopping scanning...');
+    noble.stopScanning(() => {
+      process.exit(1);
+    });
+  });
 }
 
 /**
@@ -64,7 +122,7 @@ export class BLEAdvHomebridgePlatform implements DynamicPlatformPlugin {
     const configuredButtons: BLEAdvButtonAccessory[] = [];
 
     for (const aButton of buttons) {
-      const uuid = this.api.hap.uuid.generate(aButton.deviceName);
+      const uuid = this.api.hap.uuid.generate(aButton.deviceName + aButton.name);
 
       // see if an accessory with the same uuid has already been registered and restored from
       // the cached devices we stored in the `configureAccessory` method above

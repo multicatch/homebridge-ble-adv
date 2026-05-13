@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-dummy-switch-flag",
+  "name": "homebridge-ble-adv",
   "displayName": "BLE Advertisement Scanner",
   "type": "module",
   "version": "1.0.0",
@@ -7,13 +7,13 @@
   "description": "A Homebridge plugin to convert BLE advertisements to smart devices .",
   "author": "multicatch",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/multicatch/homebridge-dummy-switch-flag",
+  "homepage": "https://github.com/multicatch/homebridge-ble-adv",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/multicatch/homebridge-dummy-switch-flag.git"
+    "url": "git+https://github.com/multicatch/homebridge-ble-adv.git"
   },
   "bugs": {
-    "url": "https://github.com/multicatch/homebridge-dummy-switch-flag/issues"
+    "url": "https://github.com/multicatch/homebridge-ble-adv/issues"
   },
   "keywords": [
     "homebridge-plugin"

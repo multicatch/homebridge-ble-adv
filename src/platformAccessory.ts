@@ -32,6 +32,10 @@ export class BLEAdvButtonAccessory {
     this.service.updateCharacteristic(this.characteristic.ProgrammableSwitchEvent, event);
   }
 
+  getBLEDevName(): string {
+    return this.config.deviceName;
+  }
+
   getAdvPattern(): RegExp {
     return new RegExp(this.config.buttonPressAdvPattern);
   }
