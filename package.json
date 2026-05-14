@@ -23,6 +23,9 @@
     "node": "^18.20.4 || ^20.18.0 || ^22.10.0",
     "homebridge": "^1.8.0 || ^2.0.0-beta.0"
   },
+  "files": [
+    "!ble_test.js"
+  ],
   "scripts": {
     "build": "rimraf ./dist && tsc",
     "lint": "eslint . --max-warnings=0",
