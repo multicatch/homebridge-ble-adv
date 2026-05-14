@@ -64,7 +64,7 @@ It will scan for advertisements and show them in real time.
 
 Hit ctrl+c to stop listening. 
 
-To make the output more readable, edit uncomment line 11 and edit it so it will match your device name:
+To make the output more readable, uncomment line 11 and edit it so it will match your device name:
 
 ```js
     if (!localName.startsWith("ESP32")) return;
