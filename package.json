@@ -2,11 +2,11 @@
   "name": "homebridge-ble-adv",
   "displayName": "BLE Advertisement Scanner",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "A Homebridge plugin to convert BLE advertisements to smart devices .",
   "author": "multicatch",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "homepage": "https://github.com/multicatch/homebridge-ble-adv",
   "repository": {
     "type": "git",
