@@ -2,8 +2,8 @@ import { Characteristic as ICharacteristic, PlatformAccessory, Service } from 'h
 
 export interface ButtonConfig {
   name: string;
-  deviceName: string,
-  buttonPressAdvPattern: string,
+  deviceName: string;
+  buttonPressAdvPattern: string;
 };
 
 export class BLEAdvButtonAccessory {
@@ -35,7 +35,7 @@ export class BLEAdvButtonAccessory {
     this.service
       .getCharacteristic(this.characteristic.ProgrammableSwitchEvent)
       .updateValue(
-        this.characteristic.ProgrammableSwitchEvent.SINGLE_PRESS
+        this.characteristic.ProgrammableSwitchEvent.SINGLE_PRESS,
       );
   }
 
